@@ -34,7 +34,7 @@ First start a MySQL instance using the MySQL docker image:
 New enviroment variables are available to configure GOOGLE_PING discovery protocol
 
 * `GOOGLE_ACCESS_KEY`
-* `GOOGLE_SECRET_ACCESS_KEY`
+* `GOOGLE_ACCESS_KEY_SECRET`
 * `GOOGLE_LOCATION`
 
 See GOOGLE_PING documentation for more info
@@ -50,7 +50,7 @@ When starting the Keycloak instance you can pass a number of environment variabl
 		   -e MYSQL_PASSWORD=password \
 		   -e GOOGLE_LOCATION=jgroups-bucket \
 		   -e GOOGLE_ACCESS_KEY=GXXXXX \
-		   -e GOOGLE_SECRET_ACCESS_KEY=YYYYYYY \
+		   -e GOOGLE_ACCESS_KEY_SECRET=YYYYYYY \
 		   akvo/keycloak-ha-mysql
 
 #### MYSQL_DATABASE
