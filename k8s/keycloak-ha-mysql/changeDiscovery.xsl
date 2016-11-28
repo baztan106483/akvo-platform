@@ -21,6 +21,8 @@
       <property name="timeout">2000</property>
       <property name="port">443</property>
       <property name="use_ssl">true</property>
+      <property name="remove_old_coords_on_view_change">true</property>
+      <property name="break_on_coord_rsp">true</property>
     </protocol>
   </xsl:template>
 

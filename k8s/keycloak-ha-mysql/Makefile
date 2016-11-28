@@ -1,8 +1,11 @@
 build:
-	docker build -t akvo/keycloak-ha-mysql .
+	docker build -t akvo/keycloak-ha-mysql:2.0.4.Final .
 
 build-no-cache:
-	docker build --no-cache -t akvo/keycloak-ha-mysql .
+	docker build --no-cache -t akvo/keycloak-ha-mysql:2.0.4.Final .
+
+push:
+	docker push akvo/keycloak-ha-mysql:2.0.4.Final
 
 mysql-start:
 	docker run --rm --name mysql \
@@ -21,3 +24,6 @@ keycloak-start:
 		-e GOOGLE_ACCESS_KEY="${GOOGLE_ACCESS_KEY}" \
 		-e GOOGLE_ACCESS_KEY_SECRET="${GOOGLE_ACCESS_KEY_SECRET}" \
 		akvo/keycloak-ha-mysql
+
+deploy-test:
+	kubectl create -f ./deployment.yaml
