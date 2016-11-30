@@ -40,3 +40,13 @@ spec:
             secretKeyRef:
               name: keycloak-test
               key: google_access_key_secret
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-test
+              key: keycloak_user
+        - name: KEYCLOAK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-test
+              key: keycloak_password
