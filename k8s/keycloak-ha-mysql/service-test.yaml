@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: keycloak-test-service
 spec:
+  type: NodePort
   ports:
     - port: 80
       targetPort: 8080
+      protocol: TCP
+      name: http
   selector:
     run: keycloak
-  type: LoadBalancer
-  loadBalancerIP: 146.148.14.154

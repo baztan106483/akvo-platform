@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kc-ingress
+spec:
+  tls:
+  - hosts:
+    - "kc.test.akvo-ops.org"
+    secretName: tls
+  rules:
+    - host: "kc.test.akvo-ops.org"
+      http:
+        paths:
+        - backend:
+            serviceName: keycloak-test-service
+            servicePort: 80
