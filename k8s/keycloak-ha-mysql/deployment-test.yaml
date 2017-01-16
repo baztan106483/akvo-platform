@@ -15,15 +15,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /auth/realms/master/.well-known/openid-configuration
-            port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 1
-          timeoutSeconds: 1
-          successThreshold: 1
-          failureThreshold: 10
         env:
         - name: MYSQL_PORT_3306_TCP_ADDR
           value: "130.211.75.1"
