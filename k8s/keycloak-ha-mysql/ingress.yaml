@@ -5,10 +5,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - "kc.test.akvo-ops.org"
+    - "kc.akvotest.org"
     secretName: tls
   rules:
-    - host: "kc.test.akvo-ops.org"
+    - host: "kc.akvotest.org"
       http:
         paths:
         - backend:
