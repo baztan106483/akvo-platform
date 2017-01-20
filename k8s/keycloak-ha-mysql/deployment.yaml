@@ -17,7 +17,10 @@ spec:
         - containerPort: 8080
         env:
         - name: MYSQL_PORT_3306_TCP_ADDR
-          value: "130.211.75.1"
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: mysql_tcp_addr
         - name: MYSQL_PORT_3306_TCP_PORT
           value: "3306"
         - name: MYSQL_DATABASE
@@ -27,27 +30,30 @@ spec:
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: keycloak-test
+              name: keycloak
               key: mysql_password
         - name: GOOGLE_LOCATION
-          value: akvo-jgroups
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: google_bucket
         - name: GOOGLE_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: keycloak-test
+              name: keycloak
               key: google_access_key
         - name: GOOGLE_ACCESS_KEY_SECRET
           valueFrom:
             secretKeyRef:
-              name: keycloak-test
+              name: keycloak
               key: google_access_key_secret
         - name: KEYCLOAK_USER
           valueFrom:
             secretKeyRef:
-              name: keycloak-test
+              name: keycloak
               key: keycloak_user
         - name: KEYCLOAK_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: keycloak-test
+              name: keycloak
               key: keycloak_password
