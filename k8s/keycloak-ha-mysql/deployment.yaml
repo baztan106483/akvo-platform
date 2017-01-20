@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: keycloak-test-deployment
+  name: keycloak
 spec:
   replicas: 1
   template:
