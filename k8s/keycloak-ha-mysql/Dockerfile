@@ -7,6 +7,7 @@ ENV WEB_XML ${KC_HOME}/modules/system/layers/keycloak/org/keycloak/keycloak-serv
 
 ADD *.xsl ${KC_HOME}/
 ADD docker-entrypoint.sh ${JB_HOME}
+ADD themes/akvo/ ${KC_HOME}/themes/akvo/
 
 RUN java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeDatabase.xsl -o:${CFG_FILE}; \
     java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeDiscovery.xsl -o:${CFG_FILE}; \

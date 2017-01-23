@@ -1,5 +1,5 @@
 
-VERSION?=2.5.0.Final
+VERSION?=2.5.1.Final
 
 build:
 	docker build -t akvo/keycloak-ha-mysql:$(VERSION) .
@@ -29,5 +29,7 @@ start:
 		akvo/keycloak-ha-mysql:$(VERSION)
 
 debug:
-	docker run --rm --tty --interactive --entrypoint /bin/bash \
+	docker run --rm --tty --interactive \
+               --volume "${PWD}":/project:rw \
+               --entrypoint /bin/bash \
                akvo/keycloak-ha-mysql:$(VERSION)
