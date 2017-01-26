@@ -1,4 +1,4 @@
-FROM jboss/keycloak:2.5.0.Final
+FROM jboss/keycloak:2.5.1.Final
 
 ENV JB_HOME /opt/jboss
 ENV KC_HOME ${JB_HOME}/keycloak
