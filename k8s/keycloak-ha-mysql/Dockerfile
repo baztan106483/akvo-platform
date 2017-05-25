@@ -12,7 +12,6 @@ ADD themes/akvo/ ${KC_HOME}/themes/akvo/
 RUN java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeDatabase.xsl -o:${CFG_FILE}; \
     java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeDiscovery.xsl -o:${CFG_FILE}; \
     java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeProxy.xsl -o:${CFG_FILE}; \
-#    java -jar /usr/share/java/saxon.jar -s:${WEB_XML} -xsl:${KC_HOME}/forceTLS.xsl -o:${WEB_XML}; \
     rm ${KC_HOME}/*.xsl;
 
 RUN mkdir -p ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main; \

@@ -1,5 +1,10 @@
 # Keycloak HA MySQL on Google Cloud Platform
 
+
+## Building Keycloak from sources
+
+See: [How to build Keycloak](build.md)
+
 Extends the [Keycloak docker image](https://github.com/jboss-dockerfiles/keycloak/tree/2.4.0.Final/server-mysql)
 
 ## Changes from base image
