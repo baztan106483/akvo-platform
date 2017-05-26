@@ -1,24 +1,55 @@
-FROM jboss/keycloak:2.5.1.Final
+# The last released Docker image from 2.5.x series
+# https://github.com/jboss-dockerfiles/keycloak/blob/2.5.5.Final/server/Dockerfile
+FROM jboss/base-jdk:8
 
-ENV JB_HOME /opt/jboss
-ENV KC_HOME ${JB_HOME}/keycloak
-ENV CFG_FILE ${KC_HOME}/standalone/configuration/standalone-ha.xml
-ENV WEB_XML ${KC_HOME}/modules/system/layers/keycloak/org/keycloak/keycloak-server-subsystem/main/server-war/WEB-INF/web.xml
+ENV KEYCLOAK_VERSION 2.5.6.Final
+# Enables signals getting passed from startup script to JVM
+# ensuring clean shutdown when container is stopped.
+ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 
-ADD *.xsl ${KC_HOME}/
-ADD docker-entrypoint.sh ${JB_HOME}
-ADD themes/akvo/ ${KC_HOME}/themes/akvo/
+USER root
 
-RUN java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeDatabase.xsl -o:${CFG_FILE}; \
-    java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeDiscovery.xsl -o:${CFG_FILE}; \
-    java -jar /usr/share/java/saxon.jar -s:${CFG_FILE} -xsl:${KC_HOME}/changeProxy.xsl -o:${CFG_FILE}; \
-#    java -jar /usr/share/java/saxon.jar -s:${WEB_XML} -xsl:${KC_HOME}/forceTLS.xsl -o:${WEB_XML}; \
-    rm ${KC_HOME}/*.xsl;
+RUN yum install -y epel-release && yum install -y jq && yum clean all
 
-RUN mkdir -p ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main; \
-    cd ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main && \
+USER jboss
+
+COPY keycloak-$KEYCLOAK_VERSION.tar.gz /opt/jboss/
+
+RUN cd /opt/jboss/ && \
+    tar zxf keycloak-$KEYCLOAK_VERSION.tar.gz && \
+    mv /opt/jboss/keycloak-$KEYCLOAK_VERSION /opt/jboss/keycloak && \
+    rm -rf /opt/jboss/keycloak-$KEYCLOAK_VERSION.tar.gz
+
+COPY docker-entrypoint.sh /opt/jboss/
+
+COPY setLogLevel.xsl /opt/jboss/keycloak/
+
+RUN java -jar /usr/share/java/saxon.jar \
+    -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml \
+    -xsl:/opt/jboss/keycloak/setLogLevel.xsl \
+    -o:/opt/jboss/keycloak/standalone/configuration/standalone.xml
+
+ENV JBOSS_HOME /opt/jboss/keycloak
+
+# Custom directives
+
+ENV CFG_FILE $JBOSS_HOME/standalone/configuration/standalone-ha.xml
+
+COPY *.xsl $JBOSS_HOME/
+
+RUN java -jar /usr/share/java/saxon.jar -s:$CFG_FILE -xsl:$JBOSS_HOME/changeDatabase.xsl -o:$CFG_FILE; \
+    java -jar /usr/share/java/saxon.jar -s:$CFG_FILE -xsl:$JBOSS_HOME/changeDiscovery.xsl -o:$CFG_FILE; \
+    java -jar /usr/share/java/saxon.jar -s:$CFG_FILE -xsl:$JBOSS_HOME/changeProxy.xsl -o:$CFG_FILE; \
+    rm -rf $JBOSS_HOME/*.xsl;
+
+RUN mkdir -p $JBOSS_HOME/modules/system/layers/base/com/mysql/jdbc/main; \
+    cd $JBOSS_HOME/modules/system/layers/base/com/mysql/jdbc/main && \
     curl -O http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.18/mysql-connector-java-5.1.18.jar
 
-ADD module.xml ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main/
+COPY module.xml $JBOSS_HOME/modules/system/layers/base/com/mysql/jdbc/main/
+
+EXPOSE 8080
+
+ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
 
 CMD ["-b", "0.0.0.0", "--server-config", "standalone-ha.xml"]
