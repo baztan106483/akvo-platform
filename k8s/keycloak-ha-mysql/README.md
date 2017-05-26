@@ -5,12 +5,23 @@
 
 See: [How to build Keycloak](build.md)
 
-Extends the [Keycloak docker image](https://github.com/jboss-dockerfiles/keycloak/tree/2.4.0.Final/server-mysql)
+## Base Dockerfile
+
+The base code is from [Keycloak docker image](https://github.com/jboss-dockerfiles/keycloak/tree/2.5.5.Final/server)
+plus the [MySQL](https://github.com/jboss-dockerfiles/keycloak/tree/2.5.5.Final/server-mysql)
+specific changes
 
 ## Changes from base image
 
 * `GOOGLE_PING` as discovery protocol
 * Disables `ip_mcast` at JGroups level
+
+## Bulding Docker image
+
+NOTE: Make sure you have a `keycloak-VERSION-tar.gz` in this folder
+(produced by building from sources)
+
+    docker build -t akvo/keycloak-ha-mysql:VERSION .
 
 ## Usage
 
