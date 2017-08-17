@@ -13,7 +13,7 @@ specific changes
 
 ## Changes from base image
 
-* `GOOGLE_PING` as discovery protocol
+* `JDBC_PING` as discovery protocol
 * Disables `ip_mcast` at JGroups level
 
 ## Bulding Docker image
@@ -33,7 +33,7 @@ First start a MySQL instance using the MySQL docker image:
 	       -e MYSQL_DATABASE=keycloak \
 		   -e MYSQL_USER=keycloak \
 		   -e MYSQL_PASSWORD=password \
-		   -e MYSQL_ROOT_PASSWORD=root_password
+		   -e MYSQL_ROOT_PASSWORD=root_password \
 		   -d mysql:5.7
 
 #### Notes
