@@ -24,6 +24,13 @@ spec:
           timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 10
+        livenessProbe:
+          httpGet:
+            path: /auth/realms/master/.well-known/openid-configuration
+            port: 8080
+          initialDelaySeconds: 70
+          timeoutSeconds: 1
+          periodSeconds: 10
         env:
         - name: JGROUPS_STACK
           value: tcp
