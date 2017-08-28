@@ -1,5 +1,5 @@
 
-VERSION?=2.5.1.Final
+VERSION?=3.1.0.Final
 
 build:
 	docker build -t akvo/keycloak-ha-mysql:$(VERSION) .
