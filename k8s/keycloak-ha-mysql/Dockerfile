@@ -8,9 +8,9 @@ ENV WEB_XML ${KC_HOME}/modules/system/layers/keycloak/org/keycloak/keycloak-serv
 
 ADD docker-entrypoint.sh ${JB_HOME}
 ADD themes/akvo/ ${KC_HOME}/themes/akvo/
-ADD keycloak_configuration ${KC_HOME}
+ADD keycloak_configuration.txt ${KC_HOME}
 
-RUN ${KC_HOME}/bin/jboss-cli.sh --file=${KC_HOME}/keycloak_configuration
+RUN ${KC_HOME}/bin/jboss-cli.sh --file=${KC_HOME}/keycloak_configuration.txt
 
 RUN rm -rf ${KC_HOME}/standalone/configuration/standalone_xml_history/current/*
 
